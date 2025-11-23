@@ -9,23 +9,26 @@
 
 * A written description of the call stack leading to line 133 in operators_factory.py
 ```
-From the <module> sample.py (line 35), 
-to the main method in sample.py (line 29), 
-to the run_anonymizer method in the sample.py (line 13)
-to the anonymize method in AnonymizerEngine Class (line 104)
-[complete the call stack here]
+From the <module> in sample.py (line 35),
+to the main() function in sample.py (line 29),
+to the run_anonymizer() function in sample.py (line 13),
+to the anonymize() method in AnonymizerEngine (line 104),
+to the __get_operator_class() call inside anonymize() (line 173),
+to the create_operator_class() method in OperatorsFactory (line 122),
+to the operator = operators_by_type.get(operator_name) line (line 133).
+
 ```
 
 * How many if/elif branches are used in selecting the operator?
-*Put your answer here*
+zero
 
 * What data structure (a Python data type) exactly is used to select the operator?
-*Put your answer here*
+python dictionary
 
 * Explain how "Strategy" design pattern is reflected here.
 
 
----
+The Presidio-Anonymizer operator system is a direct implementation of the Strategy design pattern. Each operator—such as Mask, Replace, Hash, Encrypt, or the new Initial operator—acts as a separate “strategy” that implements the shared Operator interface. Instead of using if or elif statements to decide which strategy to run, the anonymizer engine selects the appropriate operator at runtime using a dictionary lookup, where operator names map to operator classes. This allows the system to dynamically choose a behavior based only on the operator name provided by the user. Because new operators can be added simply by defining a new class and registering it in the dictionary, the core engine never needs to change to support new strategies. This decoupling of operator logic from operator selection makes the system extensible, modular, and fully aligned with the principles of the Strategy pattern.
 
 
 # Presidio - Data Protection and De-identification SDK
